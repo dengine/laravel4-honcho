@@ -36,6 +36,7 @@ installed on your own.
 'Sentry'   => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 'Messages' => 'Dberry37388\Messages\Facades\Laravel\Messages',
 'Settings' => 'Dberry37388\Honcho\Facades\SettingsFacade'
+```
 
 ###Publish the Packages Configuration Files so that you can update them as needed.
 Open up your command line so that we can run the following commands. These will put the configuration
