@@ -1,0 +1,23 @@
+{
+    "name": "dberry37388/honcho",
+    "description": "",
+    "authors": [
+        {
+            "name": "Daniel Berry",
+            "email": "daniel@danielberry.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Dberry37388\\Honcho": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
