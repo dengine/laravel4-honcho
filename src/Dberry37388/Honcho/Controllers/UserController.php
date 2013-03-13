@@ -99,8 +99,10 @@ class UserController extends HonchoController {
 	 */
 	public function postCreate()
 	{
+		$createFormModel = Config::get('honcho::user.models.createFormModel');
+
 		// use our form model to validate the form.
-		if ( ! CreateFormModel::is_valid())
+		if ( ! $createFormModel::is_valid())
 		{
 			// add our error message
 			Messages::add('validation error', array(
@@ -110,7 +112,7 @@ class UserController extends HonchoController {
 
 			// we've failed to create the user, so let's send them back to the form.
 			return Redirect::route(Config::get('honcho::user.create.redirect_failed'))
-				->withErrors(CreateFormModel::$validation)
+				->withErrors($createFormModel::$validation)
 				->withInput();
 		}
 
@@ -119,7 +121,7 @@ class UserController extends HonchoController {
 		{
 			// use our form model to generate our attributes that will be passed to Sentry
 			// to create our new user.
-			$attributes = CreateFormModel::generateAttributes();
+			$attributes = $createFormModel::generateAttributes();
 
 			// Create the user
 			$user = Sentry::getUserProvider()->create($attributes);
@@ -209,6 +211,8 @@ class UserController extends HonchoController {
 	 */
 	public function postUpdate($user_id)
 	{
+		$updateFormModel = Config::get('honcho::user.models.UpdateFormModel');
+
 		// set the user id for our user form model
 		UpdateFormModel::$user_id = $user_id;
 

@@ -6,6 +6,12 @@ return array(
 	// This will also update the Sentry  config file in app/config/packages/cartalyst/sentry/sentry.php
 	'login_attribute' => 'email',
 
+	// our form models. We have them here in a config so that they can be overridden
+	'models' => array(
+		'createFormModel' => '\Dberry37388\Honcho\Forms\User\CreateFormModel',
+		'updateFormModel' => '\Dberry37388\Honcho\Forms\User\UpdateFormModel'
+	),
+
 	/**
 	 * Regexes for our custom validators.
 	 */

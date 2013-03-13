@@ -1,14 +1,11 @@
 <?php namespace Dberry37388\Honcho\Controllers;
 
 use Dberry37388\Honcho\Controllers\HonchoController;
-use Dberry37388\Honcho\Forms\Group\CreateFormModel;
-use Dberry37388\Honcho\Forms\Group\UpdateFormModel;
 use View;
 use Config;
 use Redirect;
 use Input;
 use Sentry;
-use Validator;
 use Messages;
 use Settings;
 use DB;
@@ -94,8 +91,10 @@ class GroupController extends HonchoController {
 
 	public function postCreate()
 	{
+		// create an instance of our form model
+		$createFormModel = Config::get('honcho::group.models.createFormModel');
 
-		if ( ! CreateFormModel::is_valid())
+		if ( ! $createFormModel::is_valid())
 		{
 			// add our error message
 			Messages::add('validation error', array(
@@ -105,12 +104,12 @@ class GroupController extends HonchoController {
 
 			// we've failed to create the group, so let's send them back to the form.
 			return Redirect::route(Config::get('honcho::group.group.redirect_failed'))
-				->withErrors(CreateFormModel::$validation)
+				->withErrors($createFormModel::$validation)
 				->withInput();
 		}
 
 		// use the form model to create our attributes.
-		$attributes = CreateFormModel::generateAttributes();
+		$attributes = $createFormModel::generateAttributes();
 
 		try
 		{
@@ -300,11 +299,14 @@ class GroupController extends HonchoController {
 		 */
 		public function postUpdate($group_id)
 		{
+			// create an instance of our form model
+			$updateFormModel = Config::get('honcho::group.models.updateFormModel');
+
 			// set the group id for our group form model
-			UpdateFormModel::$group_id = $group_id;
+			$updateFormModel::$group_id = $group_id;
 
 			// use our form model to validate the form.
-			if ( ! UpdateFormModel::is_valid())
+			if ( ! $updateFormModel::is_valid())
 			{
 				// add our error message
 				Messages::add('validation error', array(
@@ -314,7 +316,7 @@ class GroupController extends HonchoController {
 
 				// we've failed to update the group, so let's send them back to the form.
 				return Redirect::route(Config::get('honcho::group.update.redirect_failed'), array($group_id))
-					->withErrors(UpdateFormModel::$validation)
+					->withErrors($updateFormModel::$validation)
 					->withInput();
 			}
 
@@ -323,12 +325,12 @@ class GroupController extends HonchoController {
 			{
 				// use our form model to generate our attributes that will be passed to Sentry
 				// to create our new group.
-				$attributes = UpdateFormModel::generateAttributes();
+				$attributes = $updateFormModel::generateAttributes();
 
 				// Create the group
 				$group = Sentry::getGroupProvider()->findById($group_id);
 
-				if (UpdateFormModel::saveObject($group))
+				if ($updateFormModel::saveObject($group))
 				{
 					// add our error message
 					Messages::add(trans('honcho::group.update.success', array('name' => $group->name)), array(

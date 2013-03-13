@@ -2,6 +2,12 @@
 
 return array(
 
+	// our form models. We have them here in a config so that they can be overridden
+	'models' => array(
+		'createFormModel' => '\Dberry37388\Honcho\Forms\Group\CreateFormModel',
+		'updateFormModel' => '\Dberry37388\Honcho\Forms\Group\UpdateFormModel'
+	),
+
 	'index' => array(
 		'page_title' => 'Manage Your Groups',
 		'view' => 'honcho::group.index'
