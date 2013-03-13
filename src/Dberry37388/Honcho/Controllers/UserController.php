@@ -123,6 +123,9 @@ class UserController extends HonchoController {
 			// to create our new user.
 			$attributes = $createFormModel::generateAttributes();
 
+			// add a unique id for the public key
+			$attributes['token'] = uniqid(md5(rand()), true);
+
 			// Create the user
 			$user = Sentry::getUserProvider()->create($attributes);
 
