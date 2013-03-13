@@ -17,6 +17,7 @@ return array(
 	 */
 	'validation' => array(
 
+		// custom username regex. This is used in our custom validation method
 		'username' => array(
 			'regex' => array(
 				'/^[a-z\d_\-.]{5,20}$/i', // lowercase letters, numbers and dashes
@@ -31,6 +32,7 @@ return array(
 		),
 	),
 
+	// config for our inted controller
 	'index' => array(
 		'view' => 'honcho::user.index'
 	),
