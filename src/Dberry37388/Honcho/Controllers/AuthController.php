@@ -9,7 +9,6 @@ use Input;
 use Sentry;
 use Messages;
 use Settings;
-use DB;
 
 class AuthController extends HonchoController {
 
@@ -134,12 +133,14 @@ class AuthController extends HonchoController {
 		// Logs the user out
 		Sentry::logout();
 
-		// add our notification
-		Notification::addAlert('success', trans('honcho::auth.logout.success'));
+		// add our success message
+		Messages::add(trans('honcho::auth.logout.success'), array(
+			'template'  => 'info',
+		    'container' => 'honcho::auth.login', // will use "default" if empty
+		));
 
 		// we have successfully signed the user out. Let's redirect with a message.
 		// The redirect is set in our config file
-		return Redirect::route(Config::get('honcho::auth.logout.redirect_success'))
-			->with('alert-success', trans('honcho::auth.logout.success'));
+		return Redirect::route(Config::get('honcho::auth.logout.redirect_success'));
 	}
 }

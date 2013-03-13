@@ -1,19 +1,38 @@
 <?php
 
 /**
- * Auth Routes
+ * These are routes that if the user is logged in, they do not need to access, such as
+ * logging in, forgotten password, etc...
  */
 
-Route::get('login', array('as' => 'login', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getLogin'));
-Route::post('login', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postLogin'));
+Route::group(array('before' => 'guest'), function()
+{
 
-Route::get('forgotpassword', array('as' => 'forgotpassword', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getForgotPassword'));
-Route::post('forgotpassword', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postForgotPassword'));
-Route::get('forgotpassword', array('as' => 'confirmreset', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getConfirmReset'));
+	/**
+	 * Routes for Our Auth Controller
+	 *
+	 * Routes are defined as honcho::auth.action
+	 */
+	Route::get('login', array('as' => 'login', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getLogin'));
+	Route::post('login', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postLogin'));
+
+	Route::get('forgotpassword', array('as' => 'forgotpassword', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getForgotPassword'));
+	Route::post('forgotpassword', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postForgotPassword'));
+	Route::get('forgotpassword', array('as' => 'confirmreset', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getConfirmReset'));
+});
 
 
 
-// register our controller,
+/**
+ * Our Logout Route.
+ */
+Route::get('logout', array('as' => 'logout', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getLogout'));
+
+
+
+/**
+ * Grouped routes that REQUIRE our user to have access to a permission
+ */
 Route::group(array('before' => 'has_access'), function()
 {
 	/**
@@ -60,4 +79,11 @@ Route::group(array('before' => 'has_access'), function()
 
 	Route::get('admin/group/permissions/{num}', array('as' => 'honcho.group.permissions', 'uses' => 'Dberry37388\Honcho\Controllers\GroupController@getPermissions'));
 	Route::post('admin/group/permissions/{num}', array('uses' => 'Dberry37388\Honcho\Controllers\GroupController@postPermissions'));
+
+	/**
+	 * Routes for our Profile Manager
+	 *
+	 * Routes are defined as honcho::profile.action
+	 */
+	Route::get('profile', array('as' => 'honcho.profile', 'uses' => 'Dberry37388\Honcho\Controllers\ProfileController@getIndex'));
 });

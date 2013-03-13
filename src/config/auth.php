@@ -11,5 +11,9 @@ return array(
 
 		// where to send the user on failed login
 		'redirect_failed' => 'login'
+	),
+
+	'logout' => array(
+		'redirect_success' => 'login'
 	)
 );
