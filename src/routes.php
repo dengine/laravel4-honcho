@@ -4,6 +4,15 @@
  * Auth Routes
  */
 
+Route::get('login', array('as' => 'login', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getLogin'));
+Route::post('login', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postLogin'));
+
+Route::get('forgotpassword', array('as' => 'forgotpassword', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getForgotPassword'));
+Route::post('forgotpassword', array('uses' => 'Dberry37388\Honcho\Controllers\AuthController@postForgotPassword'));
+Route::get('forgotpassword', array('as' => 'confirmreset', 'uses' => 'Dberry37388\Honcho\Controllers\AuthController@getConfirmReset'));
+
+
+
 // register our controller,
 Route::group(array('before' => 'has_access'), function()
 {

@@ -127,7 +127,7 @@ class UserController extends HonchoController {
 			$attributes['token'] = uniqid(md5(rand()), true);
 
 			// Create the user
-			$user = Sentry::getUserProvider()->create($attributes);
+			$user = Sentry::getUserProvider()->create($attributes, true);
 
 			if ( Input::has('groups'))
 			{
