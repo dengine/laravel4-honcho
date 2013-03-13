@@ -74,8 +74,8 @@ Route::group(array('before' => 'has_access'), function()
 	Route::get('admin/group/update/{num}', array('as' => 'honcho.group.update', 'uses' => 'Dberry37388\Honcho\Controllers\GroupController@getUpdate'));
 	Route::post('admin/group/update/{num}', array('uses' => 'Dberry37388\Honcho\Controllers\GroupController@postUpdate'));
 
-	Route::get('admin/group/users/{num}', array('as' => 'honcho.group.users', 'uses' => 'Dberry37388\Honcho\Controllers\GroupController@getGroups'));
-	Route::post('admin/group/users/{num}', array('uses' => 'Dberry37388\Honcho\Controllers\GroupController@postGroups'));
+	Route::get('admin/group/users/{num}', array('as' => 'honcho.group.users', 'uses' => 'Dberry37388\Honcho\Controllers\GroupController@getUsers'));
+	Route::post('admin/group/users/{num}', array('uses' => 'Dberry37388\Honcho\Controllers\GroupController@postUsers'));
 
 	Route::get('admin/group/permissions/{num}', array('as' => 'honcho.group.permissions', 'uses' => 'Dberry37388\Honcho\Controllers\GroupController@getPermissions'));
 	Route::post('admin/group/permissions/{num}', array('uses' => 'Dberry37388\Honcho\Controllers\GroupController@postPermissions'));

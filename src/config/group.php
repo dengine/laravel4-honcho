@@ -63,16 +63,16 @@ return array(
 		'redirect_failed' => 'honcho.group.view',
 	),
 
-	// config for our groups action
-	'groups' => array(
+	// config for our users action
+	'users' => array(
 
 		// our view
-		'view' => 'honcho::group.groups',
+		'view' => 'honcho::group.users',
 
 		// where we will be sending the group on success
-		'redirect_success' => 'honcho.group.view',
+		'redirect_success' => 'honcho.users.view',
 
 		// where to send the group on fail
-		'redirect_failed' => 'honcho.group.groups',
+		'redirect_failed' => 'honcho.group.users',
 	),
 );
