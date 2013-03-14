@@ -70,7 +70,7 @@ return array(
 		'view' => 'honcho::group.users',
 
 		// where we will be sending the group on success
-		'redirect_success' => 'honcho.users.view',
+		'redirect_success' => 'honcho.group.view',
 
 		// where to send the group on fail
 		'redirect_failed' => 'honcho.group.users',
