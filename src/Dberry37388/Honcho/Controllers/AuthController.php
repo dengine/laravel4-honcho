@@ -8,7 +8,6 @@ use Redirect;
 use Input;
 use Sentry;
 use Messages;
-use Settings;
 
 class AuthController extends HonchoController {
 

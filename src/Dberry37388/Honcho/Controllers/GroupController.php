@@ -7,28 +7,14 @@ use Redirect;
 use Input;
 use Sentry;
 use Messages;
-use Settings;
 use DB;
 
 class GroupController extends HonchoController {
-
-	public function __construct()
-	{
-		// set our section and default title
-		// This will be used for navigation items.
-		Settings::setMultiple(array(
-			'section' => 'Admin :: Group Management',
-			'page_title' => 'Manage Your Groups'
-		));
-	}
 
 	public function getIndex()
 	{
 		// get all of our groups
 		$data['groups'] = Sentry::getGroupProvider()->findAll();
-
-		// set our page title
-		Settings::setPageTitle(trans(Config::get('honcho::group.index.page_title')));
 
 		// return our dashboard view
 		return View::make(Config::get('honcho::group.index.view'), $data);
@@ -48,13 +34,6 @@ class GroupController extends HonchoController {
 			// fetch the group
 			$data['group'] = Sentry::getGroupProvider()->findById($group_id);// set our page title
 			$data['groups'] = $data['group']->groups;
-
-			// set our section and default title
-			// This will be used for navigation items.
-			Settings::setMultiple(array(
-				'page_title' => trans('honcho::group.view.page_title'),
-				'nav_section' => 'group'
-			));
 
 			// return our view with our group's data in there.
 			return View::make(Config::get('honcho::group.view.view'), $data);
@@ -78,12 +57,6 @@ class GroupController extends HonchoController {
 	{
 		// get all of our groups
 		$data['groups'] = Sentry::getgroupProvider()->findAll();
-
-		// set our section and default title
-		// This will be used for navigation items.
-		Settings::setMultiple(array(
-			'page_title' => trans('honcho::group.create.page_title'),
-		));
 
 		// return our dashboard view
 		return View::make(Config::get('honcho::group.create.view'), $data);
@@ -167,13 +140,6 @@ class GroupController extends HonchoController {
 		{
 			// fetch the group
 			$data['group'] = Sentry::getGroupProvider()->findById($group_id);// set our page title
-
-			// set our section and default title
-			// This will be used for navigation items.
-			Settings::setMultiple(array(
-				'page_title' => trans('honcho::group.delete.page_title'),
-				'nav_section' => 'group'
-			));
 
 			// return our view with our group's data in there.
 			return View::make(Config::get('honcho::group.delete.view'), $data);
@@ -263,13 +229,6 @@ class GroupController extends HonchoController {
 		{
 			// fetch the group
 			$data['group'] = Sentry::getGroupProvider()->findById($group_id);// set our page title
-
-			// set our section and default title
-			// This will be used for navigation items.
-			Settings::setMultiple(array(
-				'page_title' => trans('honcho::group.update.page_title'),
-				'nav_section' => 'group'
-			));
 
 			// return our view with our group's data in there.
 			return View::make(Config::get('honcho::group.update.view'), $data);
@@ -402,13 +361,6 @@ class GroupController extends HonchoController {
 			}
 
 			$data['selected_users'] = $selected_user_ids;
-
-			// set our section and default title
-			// This will be used for navigation items.
-			Settings::setMultiple(array(
-				'page_title' => trans('honcho::group.users.page_title'),
-				'nav_section' => 'group'
-			));
 
 			// return our view with our group's data in there.
 			return View::make(Config::get('honcho::group.users.view'), $data);

@@ -8,30 +8,15 @@ use Config;
 use Redirect;
 use Input;
 use Sentry;
-use Validator;
 use Messages;
-use Settings;
 use DB;
 
 class UserController extends HonchoController {
-
-	public function __construct()
-	{
-		// set our section and default title
-		// This will be used for navigation items.
-		Settings::setMultiple(array(
-			'section' => 'Admin :: User Management',
-			'page_title' => 'Manage Your Users'
-		));
-	}
 
 	public function getIndex()
 	{
 		// get all of our users
 		$data['users'] = Sentry::getUserProvider()->findAll();
-
-		// set our page title
-		Settings::setPageTitle(trans('honcho::user.index.page_title'));
 
 		// return our dashboard view
 		return View::make(Config::get('honcho::user.index.view'), $data);
@@ -51,9 +36,6 @@ class UserController extends HonchoController {
 			// fetch the user
 		    $data['user'] = Sentry::getUserProvider()->findById($user_id);// set our page title
 		    $data['groups'] = $data['user']->getGroups();
-
-		    // set our page title
-		    Settings::setPageTitle(trans('honcho::user.view.page_title'));
 
 		    // return our view with our user's data in there.
 		    return View::make(Config::get('honcho::user.view.view'), $data);
@@ -80,9 +62,6 @@ class UserController extends HonchoController {
 	 */
 	public function getCreate()
 	{
-		// set our page title
-		Settings::setPageTitle(trans('honcho::user.create.page_title'));
-
 		$data['groups'] = Sentry::getGroupProvider()->findAll();
 
 		// return our create form view
@@ -183,9 +162,6 @@ class UserController extends HonchoController {
 		{
 			// fetch the user
 		    $data['user'] = Sentry::getUserProvider()->findById($user_id);
-
-		    // set our page title
-		    Settings::setPageTitle(trans('honcho::user.update.page_title'));
 
 		    // return our view with our user's data in there.
 		    return View::make(Config::get('honcho::user.update.view'), $data);
@@ -309,9 +285,6 @@ class UserController extends HonchoController {
 			}
 
 			$data['selected_groups'] = $selected_group_ids;
-
-		    // set our page title
-		    Settings::setPageTitle(trans('honcho::user.groups.page_title'));
 
 		    // return our view with our user's data in there.
 		    return View::make(Config::get('honcho::user.groups.view'), $data);
