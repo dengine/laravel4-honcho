@@ -27,8 +27,8 @@ packages for installation instructions. Those are included in the Honcho compose
 are not already installed by composer, they will install when you add Honcho. You will still need
 to follow the instructions to finish adding these packages.
 
-For Sentry, please see: http://docs.cartalyst.com/sentry-2/installation/laravel-4
-For Messages, please see: https://github.com/dberry37388/laravel4-messages
+- For Sentry, please see: http://docs.cartalyst.com/sentry-2/installation/laravel-4
+- For Messages, please see: https://github.com/dberry37388/laravel4-messages
 
 ### Adding Honcho to Your Composer
 Open your composer.json file and add the following line
