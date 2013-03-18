@@ -2,6 +2,7 @@
 
 return array(
 	'login' => array(
+		'login_required' => '<h4>Login Required</h4> Please sign into your account to continue.',
 		'validation_error' => '<h4>An error occurred.</h4> Please fix the errors below.',
 		'success' => 'You have successfully signed into your account.',
 		'login_column_required' => 'Oops, you forgot to enter your :login_column',
