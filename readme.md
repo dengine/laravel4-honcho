@@ -35,7 +35,6 @@ Open your composer.json file and add the following line
 
  ```
 "dberry37388/honcho": "dev-master"
-
  ```
 
 ### Adding the Service Provider
@@ -61,7 +60,9 @@ you can make changes to them without having to worry about them being overwritte
 
 So open up your command line and run
 
-``` php artisan config::publish dberry37388/honcho ```
+```
+php artisan config::publish dberry37388/honcho
+```
 
 ### Publish Honcho Assets
 Honcho comes with a basic set of views. More than likely you will want to customize these, but to get
