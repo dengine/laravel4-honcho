@@ -86,3 +86,32 @@ Also take a look through Sentry's docs and code so that you can better understan
 - FormModels are also configurable, those are located in the respective Honcho config
 - All views are configurable, so you can put these where you want.
 - The configs are pretty consistent. I've broken them down into Controller -> Action, so they should be easy to navigate.
+
+## Customizing Honcho
+Spend time looking through the config files, there is a lot that you are able to customize in Honcho, from views,
+to controllers to models.
+
+**Make sure you run the ```php artisan config:publish --package=dberry37388/honcho``` before making changes to the config.**
+If you do not publish the config, your changes will be overridden on the next composer update.
+
+### Form Models
+We are using a variation of the FormModel class by Shawn McCool to manage our form fields and validation. Obviously fields
+are something that could vary from application to application. So if you need to stray from the defaults, then open up the
+respective config file and look for the ```models => array()``` for that controller.  You can put the model anywhere you
+like. Use the existing form models as a template guide.
+
+Please make sure you read the comments inside the FormModels as they will provide insight into what is going on.
+
+### Controllers
+Like form models, controllers are something that you may want to stray a little from Honcho defaults on.
+Just open the respective config file, for example, users is config/user, and look for the ```'controller' => ''``` field.
+If for some reason you've changed the controller var and wish to go back to the Honcho default, set your controller var to
+look like this:
+
+```
+'controller',
+```
+
+### Views
+Views are also configurable by the respective config files. For each action in the controller, there is a corresponding
+configuration array. Change the ```'view' => ''``` to match the location of your view.
