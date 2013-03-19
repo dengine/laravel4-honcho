@@ -18,6 +18,7 @@ class HonchoServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
+		// let's boot our package!
 		$this->package('dberry37388/honcho');
 
 		// includes our start file
@@ -29,13 +30,7 @@ class HonchoServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function register()
-	{
-		$this->app['honcho.settings'] = $this->app->share(function($app)
-		{
-			return new \Dberry37388\Honcho\Support\Settings();
-		});
-	}
+	public function register() {}
 
 	/**
 	 * Get the services provided by the provider.
