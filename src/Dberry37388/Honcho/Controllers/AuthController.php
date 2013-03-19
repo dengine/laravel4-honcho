@@ -48,7 +48,7 @@ class AuthController extends HonchoController {
 		try
 		{
 			// set our login column
-			$login_column = Config::get('cartalyst/sentry::sentry.users.login_attribute');
+			$login_column = LoginFormModel::$login_column;
 
 			// Set login credentials
 			$credentials = array(
