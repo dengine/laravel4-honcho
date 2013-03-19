@@ -20,6 +20,7 @@ class HonchoServiceProvider extends ServiceProvider {
 	{
 		$this->package('dberry37388/honcho');
 
+		// includes our start file
 		include ( __DIR__ . '/../../start.php');
 	}
 
@@ -30,9 +31,6 @@ class HonchoServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		// include our start file
-		include ( __DIR__ . '/../../routes.php');
-
 		$this->app['honcho.settings'] = $this->app->share(function($app)
 		{
 			return new \Dberry37388\Honcho\Support\Settings();

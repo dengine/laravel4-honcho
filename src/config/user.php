@@ -2,6 +2,10 @@
 
 return array(
 
+	// sets the controller we will be using.
+	// If left blank, we will default to Honcho's built-in controllers
+	'controller' => 'Dberry37388\Honcho\Controllers\UserController',
+
 	// what field will we be using for our login column?
 	// This will also update the Sentry  config file in app/config/packages/cartalyst/sentry/sentry.php
 	'login_attribute' => 'email',

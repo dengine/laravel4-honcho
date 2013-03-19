@@ -2,6 +2,10 @@
 
 return array(
 
+	// sets the controller we will be using.
+	// If left blank, we will default to Honcho's built-in controllers
+	'controller' => 'Dberry37388\Honcho\Controllers\GroupController',
+
 	// our form models. We have them here in a config so that they can be overridden
 	'models' => array(
 		'createFormModel' => '\Dberry37388\Honcho\Forms\Group\CreateFormModel',

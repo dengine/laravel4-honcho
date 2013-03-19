@@ -2,6 +2,10 @@
 
 return array(
 
+	// sets the controller we will be using.
+	// If left blank, we will default to Honcho's built-in controllers
+	'controller' => 'Dberry37388\Honcho\Controllers\AuthController',
+
 	// our login controller
 	'login' => array(
 		'view' => 'honcho::auth.login',
