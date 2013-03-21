@@ -6,12 +6,15 @@
  */
 Route::filter('has_access', function()
 {
-	Messages::add(trans('honcho::auth.login.login_required'), array(
-		'template'  => 'error',
-		'container' => 'honcho::auth.login', // will use "default" if empty
-	));
+	if (! Sentry::check())
+	{
+		Messages::add(trans('honcho::auth.login.login_required'), array(
+			'template'  => 'error',
+			'container' => 'honcho::auth.login', // will use "default" if empty
+		));
 
-	if (! Sentry::check()) return Redirect::route('login');
+		return Redirect::route('login');
+	}
 
 	View::share('me', Sentry::getUser());
 });

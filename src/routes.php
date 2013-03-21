@@ -94,4 +94,7 @@ Route::group(array('before' => 'has_access'), function() use($controllers)
 	 * Routes are defined as honcho::profile.action
 	 */
 	Route::get('profile', array('as' => 'honcho.profile', 'uses' => $controllers['profile'] . '@getIndex'));
+
+	Route::get('profile/changepassword', array('as' => 'honcho.profile.changepassword', 'uses' => $controllers['profile'] . '@getChangePassword'));
+	Route::post('profile/changepassword', array('uses' => $controllers['profile'] . '@postChangePassword'));
 });
