@@ -97,4 +97,7 @@ Route::group(array('before' => 'has_access'), function() use($controllers)
 
 	Route::get('profile/changepassword', array('as' => 'honcho.profile.changepassword', 'uses' => $controllers['profile'] . '@getChangePassword'));
 	Route::post('profile/changepassword', array('uses' => $controllers['profile'] . '@postChangePassword'));
+
+	Route::get('profile/update', array('as' => 'honcho.profile.update', 'uses' => $controllers['profile'] . '@getUpdate'));
+	Route::post('profile/update', array('uses' => $controllers['profile'] . '@postUpdate'));
 });

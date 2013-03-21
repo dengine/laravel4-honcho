@@ -9,4 +9,10 @@ return array(
 		'success' => 'You have successfully changed your password.',
 		'failed' => 'Oops, an error occurred while attempting to change your password.'
 	),
+
+	'update' => array(
+		'user_not_found' => 'Oops, we could not find the user profile that your were looking for.',
+		'success' => 'You have successfully updated your profile.',
+		'failed' => 'Oops, an error occurred while attempting to update your profile.'
+	),
 );
