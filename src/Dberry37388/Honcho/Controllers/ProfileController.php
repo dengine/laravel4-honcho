@@ -8,6 +8,7 @@ use Redirect;
 use Sentry;
 use Messages;
 use Input;
+use Event;
 
 class ProfileController extends HonchoController {
 
@@ -18,8 +19,15 @@ class ProfileController extends HonchoController {
 	 */
 	public function getIndex()
 	{
+		$me = View::getShared()['me'];
+
+		$data['logs'] = $me->logs()
+			->where('user_id', '=', $me->id)
+			->where('modified_by', '=', $me->id)
+			->get();
+
 		// return our dashboard view
-		return View::make(Config::get('honcho::profile.index.view'));
+		return View::make(Config::get('honcho::profile.index.view', $data));
 	}
 
 	/**
@@ -84,11 +92,14 @@ class ProfileController extends HonchoController {
 			// use our form model to attempt to update the user object
 			if ($changePasswordFormModel::saveObject($me))
 			{
-				// add our error message
+				// add our success message
 				Messages::add(trans('honcho::profile.changepassword.success'), array(
 					'template'  => 'success',
 				    'container' => 'honcho::profile.index'
 				));
+
+				// fire our logging event
+				Event::fire('honcho.profile.changepassword', $me);
 
 				// we're all finished here, so let's go view our new user
 				return Redirect::route(Config::get('honcho::profile.changepassword.redirect_success'));
@@ -176,6 +187,9 @@ class ProfileController extends HonchoController {
 					'template'  => 'success',
 				    'container' => 'honcho::profile.index'
 				));
+
+				// fire our logging event
+				Event::fire('honcho.profile.update', $me);
 
 				// we're all finished here, so let's go view our new user
 				return Redirect::route(Config::get('honcho::profile.update.redirect_success'));

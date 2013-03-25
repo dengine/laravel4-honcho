@@ -10,6 +10,7 @@ use Input;
 use Sentry;
 use Messages;
 use DB;
+use Event;
 
 class UserController extends HonchoController {
 
@@ -34,21 +35,24 @@ class UserController extends HonchoController {
 		try
 		{
 			// fetch the user
-		    $data['user'] = Sentry::getUserProvider()->findById($user_id);// set our page title
-		    $data['groups'] = $data['user']->getGroups();
+			$data['user'] = Sentry::getUserProvider()->findById($user_id);// set our page title
+			$data['groups'] = $data['user']->getGroups();
 
-		    // return our view with our user's data in there.
-		    return View::make(Config::get('honcho::user.view.view'), $data);
+			// let's log the view
+			Event::fire('honcho.user.view', array($data['user'], View::getShared()['me']->id));
+
+			// return our view with our user's data in there.
+			return View::make(Config::get('honcho::user.view.view'), $data);
 		}
 		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    $error = $e->getMessage();
+			$error = $e->getMessage();
 		}
 
 		// add our error message
 		Messages::add($e->getMessage(), array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.view', // will use "default" if empty
+			'container' => 'honcho::user.view', // will use "default" if empty
 		));
 
 		// redirect to the configured fail route
@@ -86,7 +90,7 @@ class UserController extends HonchoController {
 			// add our error message
 			Messages::add('validation error', array(
 				'template'  => 'validation',
-			    'container' => 'honcho::user.create', // will use "default" if empty
+				'container' => 'honcho::user.create', // will use "default" if empty
 			));
 
 			// we've failed to create the user, so let's send them back to the form.
@@ -122,6 +126,9 @@ class UserController extends HonchoController {
 				}
 			}
 
+			// let's log the view
+			Event::fire('honcho.user.create', array($user, View::getShared()['me']->id));
+
 			// we're all finished here, so let's go view our new user
 			return Redirect::route(Config::get('honcho::user.create.redirect_success'), array($user->id));
 		}
@@ -141,7 +148,7 @@ class UserController extends HonchoController {
 		// add our error message
 		Messages::add($error, array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.create', // will use "default" if empty
+			'container' => 'honcho::user.create', // will use "default" if empty
 		));
 
 
@@ -162,20 +169,20 @@ class UserController extends HonchoController {
 		try
 		{
 			// fetch the user
-		    $data['user'] = Sentry::getUserProvider()->findById($user_id);
+			$data['user'] = Sentry::getUserProvider()->findById($user_id);
 
-		    // return our view with our user's data in there.
-		    return View::make(Config::get('honcho::user.update.view'), $data);
+			// return our view with our user's data in there.
+			return View::make(Config::get('honcho::user.update.view'), $data);
 		}
 		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    $error = $e->getMessage();
+			$error = $e->getMessage();
 		}
 
 		// add our error message
 		Messages::add($e->getMessage(), array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.update', // will use "default" if empty
+			'container' => 'honcho::user.update', // will use "default" if empty
 		));
 
 		// redirect to the configured fail route
@@ -202,7 +209,7 @@ class UserController extends HonchoController {
 			// add our error message
 			Messages::add('validation error', array(
 				'template'  => 'validation',
-			    'container' => 'honcho::user.update', // will use "default" if empty
+				'container' => 'honcho::user.update', // will use "default" if empty
 			));
 
 			// we've failed to update the user, so let's send them back to the form.
@@ -226,8 +233,11 @@ class UserController extends HonchoController {
 				// add our error message
 				Messages::add(trans('honcho::user.update.success'), array(
 					'template'  => 'success',
-				    'container' => 'honcho::user.view', // will use "default" if empty
+					'container' => 'honcho::user.view', // will use "default" if empty
 				));
+
+				// let's log the update
+				Event::fire('honcho.user.update', array($user, View::getShared()['me']->id));
 
 				// we're all finished here, so let's go view our new user
 				return Redirect::route(Config::get('honcho::user.update.redirect_success'), array($user_id));
@@ -237,7 +247,7 @@ class UserController extends HonchoController {
 				// add our error message
 				Messages::add(trans('honcho::user.update.success'), array(
 					'template'  => 'error',
-				    'container' => 'honcho::user.view', // will use "default" if empty
+					'container' => 'honcho::user.view', // will use "default" if empty
 				));
 			}
 		}
@@ -247,21 +257,21 @@ class UserController extends HonchoController {
 		}
 		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    // add our error message
-		    Messages::add(trans('honcho::user.update.user_not_found'), array(
-		    	'template'  => 'error',
-		        'container' => 'honcho::user.update', // will use "default" if empty
-		    ));
+			// add our error message
+			Messages::add(trans('honcho::user.update.user_not_found'), array(
+				'template'  => 'error',
+				'container' => 'honcho::user.update', // will use "default" if empty
+			));
 
-		    // we've failed to update the user, so let's send them back to the form.
-		    return Redirect::route('honcho::user.update.redirect_failed', array($user_id))
-		    	->withInput();
+			// we've failed to update the user, so let's send them back to the form.
+			return Redirect::route('honcho::user.update.redirect_failed', array($user_id))
+				->withInput();
 		}
 
 		// add our error message
 		Messages::add($error, array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.update', // will use "default" if empty
+			'container' => 'honcho::user.update', // will use "default" if empty
 		));
 
 
@@ -287,18 +297,18 @@ class UserController extends HonchoController {
 
 			$data['selected_groups'] = $selected_group_ids;
 
-		    // return our view with our user's data in there.
-		    return View::make(Config::get('honcho::user.groups.view'), $data);
+			// return our view with our user's data in there.
+			return View::make(Config::get('honcho::user.groups.view'), $data);
 		}
 		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    $error = $e->getMessage();
+			$error = $e->getMessage();
 		}
 
 		// add our error message
 		Messages::add($e->getMessage(), array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.groups', // will use "default" if empty
+			'container' => 'honcho::user.groups', // will use "default" if empty
 		));
 	}
 
@@ -306,6 +316,9 @@ class UserController extends HonchoController {
 	{
 		try
 		{
+			// fetch the user
+			$user = Sentry::getUserProvider()->findById($user_id);// set our page title
+
 			// start by removing all of the current groups that the user belongs to.
 			$affected  = DB::table('users_groups')
 				->where('user_id', '=', $user_id)
@@ -316,9 +329,6 @@ class UserController extends HonchoController {
 
 			if ( ! empty($new_groups))
 			{
-				// fetch the user
-				$user = Sentry::getUserProvider()->findById($user_id);// set our page title
-
 				foreach($new_groups as $group_id)
 				{
 					$group = Sentry::getGroupProvider()->findById($group_id);
@@ -329,25 +339,28 @@ class UserController extends HonchoController {
 
 		   // add our error message
 		   Messages::add(trans('honcho::user.groups.success'), array(
-		   	'template'  => 'success',
-		       'container' => 'honcho::user.view', // will use "default" if empty
+			'template'  => 'success',
+			   'container' => 'honcho::user.view', // will use "default" if empty
 		   ));
 
-		    // return our view with our user's data in there.
-		    return Redirect::route(Config::get('honcho::user.groups.redirect_success'), array($user_id));
+		   // let's log the view
+		   Event::fire('honcho.user.groups', array($user, View::getShared()['me']->id));
+
+		   // return our view with our user's data in there.
+		   return Redirect::route(Config::get('honcho::user.groups.redirect_success'), array($user_id));
 		}
 		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-		    $error = $e->getMessage();
+			$error = $e->getMessage();
 		}
 
 		// add our error message
 		Messages::add($e->getMessage(), array(
 			'template'  => 'error',
-		    'container' => 'honcho::user.groups', // will use "default" if empty
+			'container' => 'honcho::user.groups', // will use "default" if empty
 		));
 
 		// return our view with our user's data in there.
-	    return Redirect::route(Config::get('honcho::user.groups.redirect_failed'), array($user_id));
+		return Redirect::route(Config::get('honcho::user.groups.redirect_failed'), array($user_id));
 	}
 }

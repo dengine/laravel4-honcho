@@ -12,10 +12,12 @@ return array(
 		'user_suspended' => 'Your account has been suspended due to way too many invalid login attempts.',
 		'user_banned' => 'Your account has been banned. Please contact the system administrator.',
 		'login_required' => '<h4>Login Required</h4> Please log into your account continue',
+		'event_entry' => 'Successfully logged into your account.'
 
 	),
 
 	'logout' => array(
-		'success' => '<h4>See You Later!</h4> You are now logged out.'
+		'success' => '<h4>See You Later!</h4> You are now logged out.',
+		'event_entry' => 'Successfully logged out of your account.'
 	)
 );

@@ -8,6 +8,16 @@ use Redirect;
 use Input;
 use Sentry;
 use Messages;
+use Event;
+
+// sentry exceptions
+use Cartalyst\Sentry\Users\LoginRequiredException;
+use Cartalyst\Sentry\Users\PasswordRequiredException;
+use Cartalyst\Sentry\Users\UserNotFoundException;
+use Cartalyst\Sentry\Users\UserNotActivatedException;
+use Cartalyst\Sentry\Throtting\UserSuspendedException;
+use Cartalyst\Sentry\Throtting\UserBannedException;
+
 
 class AuthController extends HonchoController {
 
@@ -67,23 +77,26 @@ class AuthController extends HonchoController {
 				    'container' => 'honcho::auth.login', // will use "default" if empty
 				));
 
+				// fire our logging event
+				Event::fire('honcho.auth.login', $user);
+
 				// we have successfully logged the user in, so now let's send them where they need
 				// to go. If no session redirect uri is found, we will just send them to the default
 				// route that is configured in our honcho::auth.login.redirect_success.
 				return Redirect::route(Config::get('honcho::auth.login.redirect_success'));
 			}
 		}
-		catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+		catch (LoginRequiredException $e)
 		{
 			// set our error message
 			$error = trans('honcho::auth.login.login_column_required', array('login_column' => $login_column));
 		}
-		catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e)
+		catch (PasswordRequiredException $e)
 		{
 			// set our error message
 			$error = trans('honcho::auth.login.password_required');
 		}
-		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
+		catch (UserNotFoundException $e)
 		{
 			// Sometimes a user is found, however hashed credentials do
 			// not match. Therefore a user technically doesn't exist
@@ -92,19 +105,19 @@ class AuthController extends HonchoController {
 			// set our error message
 			$error = trans('honcho::auth.login.user_not_found');
 		}
-		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+		catch (UserNotActivatedException $e)
 		{
 			// set our error message
 			$error = trans('honcho::auth.login.user_not_activated');
 		}
 
 		// The following is only required if throttle is enabled
-		catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
+		catch (UserSuspendedException $e)
 		{
 			// set our error message
 			$error = trans('honcho::auth.login.user_suspended');
 		}
-		catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
+		catch (UserBannedException $e)
 		{
 			// set our error message
 			$error = trans('honcho::auth.login.user_banned');
@@ -129,14 +142,26 @@ class AuthController extends HonchoController {
 	 */
 	public function getLogout()
 	{
-		// Logs the user out
-		Sentry::logout();
+		if (Sentry::check())
+		{
+			// save our user object so that we fire our event.
+			$saved_user = Sentry::getUser();
 
-		// add our success message
-		Messages::add(trans('honcho::auth.logout.success'), array(
-			'template'  => 'info',
-		    'container' => 'honcho::auth.login', // will use "default" if empty
-		));
+			// Logs the user out
+			Sentry::logout();
+
+			// add our success message
+			Messages::add(trans('honcho::auth.logout.success'), array(
+				'template'  => 'info',
+			    'container' => 'honcho::auth.login', // will use "default" if empty
+			));
+
+			// fire our logging event
+			Event::fire('honcho.auth.logout', $saved_user);
+
+			// unset our saved user var
+			unset($saved_user);
+		}
 
 		// we have successfully signed the user out. Let's redirect with a message.
 		// The redirect is set in our config file
