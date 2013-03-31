@@ -4,7 +4,7 @@
 
 <div class="span9">
 
-	<h1 class="page-title">{{ Settings::getSection() }}</h1>
+	<h1 class="page-title">View Group Details</h1>
 
 	<div class="widget widget-table">
 		<div class="widget-header">

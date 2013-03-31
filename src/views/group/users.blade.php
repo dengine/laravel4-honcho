@@ -7,7 +7,7 @@
 
 	<div class="widget">
 		<div class="widget-header">
-			<h3>{{ Settings::getPageTitle() }}</h3>
+			<h3>Group Users</h3>
 		</div>
 
 		<div class="widget-content">

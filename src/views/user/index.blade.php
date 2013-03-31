@@ -6,7 +6,7 @@
 
 	<div class="widget widget-table">
 		<div class="widget-header">
-			<h3><i class="icon-table"></i>&nbsp;&nbsp; {{ Settings::getPageTitle() }}</h3>
+			<h3><i class="icon-table"></i>&nbsp;&nbsp;User Admin</h3>
 		</div>
 
 		<div class="widget-content">

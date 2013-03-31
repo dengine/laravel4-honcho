@@ -6,7 +6,7 @@
 
 	<div class="widget widget-table">
 		<div class="widget-header">
-			<h3><i class="icon-table"></i>&nbsp;&nbsp;{{ Settings::getPageTitle() }}</h3>
+			<h3><i class="icon-table"></i>&nbsp;&nbsp;View User</h3>
 
 			<div class="widget-tools">
 				<a class="btn btn-mini" href="{{ URL::route("honcho.user.update", array($user->id)) }}">

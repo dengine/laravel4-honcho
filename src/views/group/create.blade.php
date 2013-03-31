@@ -4,7 +4,7 @@
 
 <!-- Content -->
 <div class="span9">
-	<h1 class="page-title">{{ Settings::getSection() }}</h1>
+	<h1 class="page-title">Create a New Group</h1>
 
 	<div class="widget">
 		<div class="widget-header">

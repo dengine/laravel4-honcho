@@ -6,7 +6,7 @@
 <div class="span9">
 	<div class="widget">
 		<div class="widget-header">
-			<h3>{{ Settings::getPageTitle() }}</h3>
+			<h3>Create a New User</h3>
 		</div>
 
 		<div class="widget-content">

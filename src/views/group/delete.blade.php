@@ -4,7 +4,7 @@
 
 <div class="span9">
 
-	<h1 class="page-title">{{ Settings::getSection() }}</h1>
+	<h1 class="page-title">Delete a Group</h1>
 
 	{{-- Include our messages if there are any --}}
 	{{ Messages::render('honcho::partials.messages.render', 'honcho::group.view') }}
